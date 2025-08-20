@@ -196,39 +196,47 @@ import js
 import asyncio
 from pyodide.ffi import create_proxy, to_js
 
-# print(dir(js))
-# print(dir(js.ReactDOM))
-# print(dir(js.ReactDOMServer))
-
 e = js.React.createElement
 
 def a(*args): return js.Array(*args)
 def jso(**kwargs): return js.Object.fromEntries(to_js(kwargs))
 
-@create_proxy
-def App(props=None, children=None, *args, **kwargs):
-    count, set_count = js.React.useState(0)
-    delay, set_delay = js.React.useState(False)
+def LabeledCheckbox(props={}, children=[], *args, **kwargs):
+    return e('div', {"class": "checkbox-with-label"},
+        e('div', {"class": "checkbox-container"},
+            e('input', jso(type="checkbox", checked=props["checked"], onClick=props["onClick"], id=props["id"]), None),
+            e('svg', None, e('use', {"href": "icons/check.svg"}, None)),
+        ),
+        e('label', {"for": props["id"]}, props["label"]),
+    )
 
+@create_proxy
+def App(props={}, children=[], *args, **kwargs):
+    count, set_count = js.React.useState(0)
+    use_delay, set_use_delay = js.React.useState(False)
+
+    # useEffect and asyncio
     @create_proxy
     def onLoad():
         @create_proxy
         async def onLoadInner():
-            await asyncio.sleep(2)
-            set_delay(True)
+            await asyncio.sleep(10)
+            set_use_delay(True)
         onLoadInner()
 
-    # js.React.useEffect(onLoad, a())
+    # js.React.useEffect(onLoad, a()) # Uncomment to test useEffect
 
+    # Nested functions and async
     def handle_inc(i):
         async def handle_click(event):
-            if delay:
+            if use_delay:
                 await asyncio.sleep(1.5)
             set_count(lambda count: count + i)
         return handle_click
 
-    def clickCheck(e):
-        set_delay(not delay)
+    # Standard setState
+    def toggleDelay(e):
+        set_use_delay(not use_delay)
 
     return e('div', None,
         e('p', {"class": "count"}, count),
@@ -236,13 +244,7 @@ def App(props=None, children=None, *args, **kwargs):
             e('button', jso(onClick=handle_inc(1)), '+'),
             e('button', jso(onClick=handle_inc(-1)), '-'),
         ),
-        e('div', {"class": "checkbox-with-label"},
-            e('div', {"class": "checkbox-container"},
-                e('input', jso(type="checkbox", checked=delay, onClick=clickCheck, id="use_delay"), None),
-                e('svg', None, e('use', {"href": "icons/check.svg"}, None)),
-            ),
-            e('label', {"for": "use_delay"}, 'Use delay'),
-        )
+        LabeledCheckbox({"checked": use_delay, "onClick": toggleDelay, "id": "use_delay", "label": "Use delay"}),
     )
 
 # print(js.ReactDOMServer.renderToString(e(App, None)))
