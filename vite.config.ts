@@ -5,7 +5,7 @@ import Inspect from "vite-plugin-inspect"
 function PythonReader() {
     return {
         name: "python-reader",
-        transform(src, id) {
+        transform(src: string, id: string) {
             if (id.endsWith(".py")) {
                 console.log("src", src)
                 return {
