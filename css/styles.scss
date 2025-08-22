@@ -146,7 +146,7 @@ input[type=checkbox]:checked {
   background-color: var(--stone-700);
 }
 
-input[type=checkbox]+svg {
+input[type=checkbox]+.checkmark {
   display: none;
   position: absolute;
   top: 0.125rem;
@@ -156,6 +156,6 @@ input[type=checkbox]+svg {
   z-index: 100;
 }
 
-input[type=checkbox]:checked+svg {
+input[type=checkbox]:checked+.checkmark {
   display: block;
 }
