@@ -32,7 +32,7 @@ def App(props={}, children=[], *args, **kwargs):
             set_use_delay(True)
         onLoadInner()
 
-    js.React.useEffect(onLoad, a()) # Uncomment to test useEffect
+    # js.React.useEffect(onLoad, a()) # Uncomment to test useEffect
 
     # Nested functions and async
     @create_proxy
