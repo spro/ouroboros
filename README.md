@@ -5,3 +5,7 @@
 Or, I just learned about <a href="https://pyodide.org/" target="_blank">Pyodide</a> and had to try it.
 
 Based on the blog post at https://blog.pyodide.org/posts/react-in-python-with-pyodide/ with updates for the latest Pyodide version - namely using `create_proxy` where necessary to keep the `App` component alive.
+
+* [`main.py`](/main.py) - The main App component in Python
+* [`main.tsx`](/main.tsx) - Imports the Python component, loads Pyodide, and renders
+* [`vite.config.ts`](/vite.config.ts) - Handles translating the Python import to a JS file exporting the source
