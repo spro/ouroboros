@@ -18,6 +18,6 @@ function PythonReader() {
 
 // https://vite.dev/config/
 export default defineConfig({
-    base: '/ouroborus/',
+    base: '/ouroboros/',
     plugins: [react(), Inspect(), PythonReader()],
 })
