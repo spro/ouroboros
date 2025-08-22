@@ -12,7 +12,7 @@ checkbox_src="data:image/svg+xml;base64,PHN2ZwogICAgeG1sbnM9Imh0dHA6Ly93d3cudzMu
 def LabeledCheckbox(props={}, children=[], *args, **kwargs):
     return e('div', o(className="checkbox-with-label"),
         e('div', o(className="checkbox-container"),
-            e('input', o(type="checkbox", checked=props.checked, onClick=props.onClick, id=props.id), None),
+            e('input', o(type="checkbox", checked=props.checked, onChange=props.onChange, id=props.id), None),
             e('img', o(className="checkmark", src=checkbox_src), None),
         ),
         e('label', o(htmlFor=props.id), props.label),
@@ -46,7 +46,7 @@ def App(props={}, children=[], *args, **kwargs):
 
     # Standard setState
     def toggleDelay(e):
-        set_use_delay(not use_delay)
+        set_use_delay(e.target.checked)
 
     return e('div', None,
         e('p', o(className="count"), count),
@@ -54,7 +54,7 @@ def App(props={}, children=[], *args, **kwargs):
             e('button', o(onClick=handle_inc(1)), '+'),
             e('button', o(onClick=handle_inc(-1)), '-'),
         ),
-        LabeledCheckbox(o(checked=use_delay, onClick=toggleDelay, id="use_delay", label="Use delay")),
+        LabeledCheckbox(o(checked=use_delay, onChange=toggleDelay, id="use_delay", label="Use delay")),
     )
 
 App
