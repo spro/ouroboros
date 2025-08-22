@@ -7,9 +7,7 @@ function PythonReader() {
         name: "python-reader",
         transform(src: string, id: string) {
             if (id.endsWith(".py")) {
-                console.log("src", src)
                 return {
-                    // code: `console.log(${src})`,
                     code: `const py_src = ${JSON.stringify(src)}\nexport default py_src`,
                     map: null,
                 }
